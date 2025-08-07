@@ -102,5 +102,13 @@ body {
     background-color: white;
     box-shadow: 10px;
   }
- 
+}
+
+/* is category button css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -10,10 +10,6 @@ function Login() {
   const navigate = useNavigate();
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  const [inputErrors, setInputErrors] = useState({
-    Email: false,
-    Password: false,
-  });
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -23,12 +19,16 @@ function Login() {
         Email,
         Password,
       });
-
+      console.log("testing data for login:",res.data);
+  
       toast.success("User Login Successfully");
       // Store token in localstore
       const token = res.data.token;
+      const role=res.data.user.role;
+      
       localStorage.setItem("token", token);
-
+      localStorage.setItem("role",role)
+      
       setEmail("");
       setPassword("");
 
@@ -40,12 +40,6 @@ function Login() {
       const errDetails = error.response?.data?.errors;
 
       console.error("Login failed:", errDetails || errMessage);
-
-      if (Array.isArray(errDetails)) {
-        errDetails.forEach((msg) => toast.error(msg));
-      } else {
-        toast.error(errMessage);
-      }
     }
   };
 
@@ -72,7 +66,6 @@ function Login() {
               value={Email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter Email"
-              error={inputErrors.Email && "Email is required."}
             />
           </div>
           <div>
@@ -83,19 +76,18 @@ function Login() {
               value={Password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter Password"
-              error={inputErrors.Password && "Password is required."}
             />
           </div>
           <button
             type="submit"
-            className="w-full mt-4 bg-[var(--color-primary)] text-white py-2 rounded-full hover:bg-[var(--color-primary)] transition"
+            className="w-full mt-4 bg-[var(--color-primary)] text-white py-2 rounded-full hover:bg-[var(--color-primary)] transition cursor-pointer"
           >
             Login
           </button>
           <div className="mt-4 text-center">
             <Link to="/registration" className="transition">
               Don't have an account?{" "}
-              <span className="text-sm text-blue-600 hover:underline hover:text-blue-800">
+              <span className="text-sm text-blue-600 hover:underline hover:text-blue-800 cursor-pointer">
                 Register here
               </span>
             </Link>
